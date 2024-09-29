@@ -7,15 +7,20 @@ import java.util.HashMap;
 
 @RestController
 public class LabseqController {
-    private static HashMap<Integer, Integer> calculationsStorage = new HashMap<>();;
+    private static HashMap<Integer, Long> calculationsStorage = new HashMap<>();;
 
-    private static Integer calculateLabseq(Integer n){
+    private static Long calculateLabseq(Integer n){
         // stopping point/base case for the recursive function:
         if (calculationsStorage.containsKey(n)) {
             return calculationsStorage.get(n);
         }
         // > 3 => l(n) = l(n-4) + l(n-3)
-        return calculateLabseq(n - 4) + calculateLabseq(n - 3);
+        Long answer = calculateLabseq(n - 4) + calculateLabseq(n - 3);
+
+        calculationsStorage.put(n, answer);
+
+        return answer;
+        //return calculateLabseq(n - 4) + calculateLabseq(n - 3);
     }
 
     // ex. http://localhost:8080/labseq?n=99
@@ -23,21 +28,26 @@ public class LabseqController {
     @GetMapping("/labseq")
     public static String labseq(Integer n) {
         // Default values:
-        calculationsStorage.put(0, 0); // l(0) = 0
-        calculationsStorage.put(1, 1); // l(1) = 1
-        calculationsStorage.put(2, 0); // l(2) = 0
-        calculationsStorage.put(3, 1); // l(3) = 1
+        calculationsStorage.put(0, 0L); // l(0) = 0
+        calculationsStorage.put(1, 1L); // l(1) = 1
+        calculationsStorage.put(2, 0L); // l(2) = 0
+        calculationsStorage.put(3, 1L); // l(3) = 1
 
         Integer answer = 0;
         if(n >= 0){
-            if(!calculationsStorage.containsKey(n)){
-                answer = calculateLabseq(n);
-                calculationsStorage.put(n, answer);
-            }
+//            if(!calculationsStorage.containsKey(n)){
+//                answer = calculateLabseq(n);
+//                calculationsStorage.put(n, answer);
+//            }
+            //System.out.println(calculationsStorage);
+            return "Labseq number: " + calculateLabseq(n);
+
+            // Labseq number: -1468691325 .... quando meto n = 10000
+            // tive que atualizar de Integer para Long
         }else{
             return "Positive numbers only!";
         }
-        return "Labseq number: " + answer;
+
     }
 
 }

@@ -1,0 +1,21 @@
+body {
+    background-color: lightblue;
+    text-align: center;
+    font-family: sans-serif;
+}
+
+h1 {
+    color: darkblue;
+}
+
+input, button {
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+}
+
+button {
+    background-color: darkblue;
+    color: white;
+    cursor: pointer;
+}
